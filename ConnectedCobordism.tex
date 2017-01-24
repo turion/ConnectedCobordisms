@@ -1,0 +1,323 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+\usepackage{enigtex-macros}
+\usepackage{enigtex-cat}
+\newcommand{\eniglanguageindex}{0} %TODO
+\usepackage{enigthm}
+
+
+\title{Connected cobordisms and their representations}
+\author{Manuel \& ?}
+
+\begin{document}
+
+\maketitle
+
+\section{Rough idea}
+
+Connected sum is a commutative monoid on (isomorphism classes of) connected manifolds.
+I'd even bet it's a symmetric monoidal structure on the category of connected manifolds.
+But what about cobordisms as morphisms between manifolds?
+How do we get a cobordism category where connected sum plays a role?
+There are four possibilities:
+\begin{itemize}
+	\item Forget about connected sum, disjoint union is good enough.
+		This gives standard TQFTs.
+	\item Have connected sum only on the bordisms,
+		and disjoint union on the boundaries.
+		Studied in Section \ref{sec:connect bordisms}.
+	\item Have connected sum mainly on the boundaries,
+		but not in the interior of the bordisms
+		(only in the collars).
+		Studied in Section \ref{sec:connect boundaries}.
+	\item Have connected sum on the boundaries and the bordisms.
+		This requires a choice of interval on every bordism,
+		along which we'll glue.
+		Studied in Section \ref{sec:connect everything}.
+\end{itemize}
+So much choice!
+And all of them are not inequivalent (at least monoidally).
+But we'll see how some ideas are special cases of others,
+in a certain sense.
+And some ideas will stop working pretty quickly.
+
+\section{Prerequisites}
+
+\subsection{Connected sum}
+
+\begin{definition}
+	\label{def:connected sum}
+	Take three $n$-manifolds $M_1, M_2, N$ with $\partial N \neq \emptyset$
+	and (collared?) embeddings $i_1\colon N \hookrightarrow M_1$, $i_2\colon \overline{N} \hookrightarrow M_2$.
+	The \textbf{connected sum} of $M_1$ and $M_2$ along $N$ (with the $i_{1,2}$ implicitly assumed),
+	denoted as $M_1 \connsum_N M_2$,
+	is the manifold $M_1 \backslash_{i_1} N \cup_{\partial N} M_2 \backslash_{i_2} N$.
+	
+	If $N = D^n$ (the $n$-disk) and the embeddings are standard,
+	they are omitted and we're talking simply about the connected sum $M_1 \connsum M_2$.
+\end{definition}
+
+\begin{definition}
+	An $n$-dimensional bordism $\Sigma\colon M_1 \to M_2$ is a quadruple $(\Sigma, M_1, M_2, \phi\colon \partial \Sigma \xrightarrow{\cong} M_1 \sqcup \overline{M_2})$,
+	where $\Sigma$ is an $n$-manifold, $M_{1,2}$ are closed $(n-1)$-manifolds and $\phi$ is a collared diffeomorphism.
+	
+	For $\Sigma_1, \Sigma_2\colon M_1 \to M_2$,
+	a diffeomorphism between the two bordisms is a diffeomorphism of the underlying manifolds $\Sigma_{1,2}$ that agrees with $\phi_{1,2}$.
+	From now on, we will typically understand all bordism up to these diffeomorphisms.
+\end{definition}
+It is well known that bordisms form a symmetric monoidal category $\operatorname{Bord}_n$,
+where the monoidal product is the disjoint union.
+
+\section{Connect the bordisms}
+\label{sec:connect bordisms}
+
+\begin{definition}
+	Let $\operatorname{CBord}_n$ be the following ``braided'' monoidal category-without-identities:
+	\begin{description}
+		\item[Objects]
+			Closed (not necessarily connected) $(n-1)$-manifolds.
+		\item[Morphisms]
+			$\operatorname{CBord}_n(M_1, M_2)$ is the set of (diffeomorphism equivalence classes of) \emph{connected} bordisms.
+			\begin{description}
+				\item[Identities]
+					Note that unconnected $(n-1)$-manifolds don't have identity morphisms.
+					Connected ones have the cylinder as identity, as usual.
+					It is of course possibly to call the connected sum of several cylinders an identity bordism,
+					but it doesn't satisfy the equations an identity should satisfy.
+				\item[Composition]
+					Composition is gluing along the collared boundary.
+			\end{description}
+		\item[Monoidal product]
+			On objects/boundaries, disjoint union.
+			On morphisms/bordisms, connected sum (along $D^n$ in arbitrary points in the interior).
+		\item[Braiding]
+			The braiding is the connected sum of the identity bordisms,
+			with a swap diffeomorphism on one end.
+			It satisfies some sort of braid equation.
+			The braiding is not symmetric, at least not in the sense in which ``identity bordisms'' were defined.
+	\end{description}
+\end{definition}
+All in all, this thing is pretty broken.
+And one wouldn't expect it to have any interesting new behaviour,
+since we can model all of it in ordinary bordisms!
+Simply replace every morphism in $\operatorname{CBord}_n$ with the same bordism,
+but with a $D^n$ cut out.
+When taking the disjoint union of two such bordisms,
+just stick a maccaroni (the duality morphism $\coev\colon S^{n-1} \sqcup S^{n-1} \to \emptyset$) on top and you'll get the connected sum.
+
+\medskip
+
+% TODO
+TODO: A discussion relating this idea to the fact that if $\dim \mathcal{Z}(S^{n-1}) = 1$,
+then $\mathcal{Z}(\Sigma_1 \connsum \Sigma_2) = \frac{\mathcal{Z}(\Sigma_1) \cdot \mathcal{Z}(\Sigma_2)}{\mathcal{Z}(S^n)}$ for closed bordisms $\Sigma_{1,2}$.
+
+\section{Connect the boundaries}
+\label{sec:connect boundaries}
+
+In Definition \ref{def:connected sum},
+we can probably allow embedded manifolds with corners.
+This gives the following definition:
+\begin{definition}
+	The manifold with corner $\{(x_0, x_1, \dots, x_n) \in \R^n | x_0 \geq 0, \sum x_i^2 \leq 1 \}$
+	is called \textbf{half of $D^n$}.
+	Its ``bottom`` is the $D^{n-1}$ given by $x_0 = 0$.
+
+	Given two bordisms $\Sigma_1\colon M_{1,1} \to M_{1,2}$ and $\Sigma_2\colon M_{2,1} \to M_{2,2}$
+	such that the $M_{i,j}$ are all connected and closed,
+	chose two embeddings of half of $D^n$ in each of the bordisms such that the bottoms lie in the boundaries.
+	Cut the half of $D^n$ out,
+	and perform connected sum.
+	This will give the usual connected sum on the boundaries,
+	and a new, connected, bordism.
+	
+	This operation is called \textbf{connected sum on the boundaries}.
+\end{definition}
+\begin{definition}
+	The not-quite-monoidal category $\operatorname{cBord}_n$ is defined as follows:
+	\begin{description}
+		\item[Objects]
+			\emph{Connected}, closed $(n-1)$-manifolds.
+		\item[Morphisms]
+			\emph{Connected} cobordisms.
+			Identity and composition are as usual.
+		\item[``Monoidal product'']
+			On objects, connected sum.
+			The monoidal unit is now $S^{n-1}$.
+			On morphisms, connected sum on the boundaries.
+			
+			Unfortunately, this doesn't send the monoidal product of two identities to an identity.
+			It also doesn't respect the interchange law:
+			If we first connect sum and then compose,
+			there is a gluing point right in the middle of the bordism.
+			If we compose first and then connect sum,
+			that gluing point isn't there.
+		\item[Braiding]
+			The braiding consists of the identity bordism and the diffeomorphism $M_1 \connsum M_2 \cong M_2 \connsum M_1$.
+			Looks pretty symmetric to me.
+	\end{description}
+\end{definition}
+Again, this is quite a broken thing.
+
+\section{Connect everything}
+\label{sec:connect everything}
+
+Things seem not to work if we put the connected sum just on bordisms or boundaries.
+Maybe we have to do both simultaneously.
+But when connect summing all the way along the whole bordism,
+we have to sum along a whole interval,
+and then the particular choice of interval is relevant.
+
+\begin{definition}
+	A \textbf{zippered bordism} $\Sigma\colon (M_0, p_0 \in M_0) \to (M_1, p_1 \in M_1)$ is a quintuple $(\Sigma, M_0, M_1, \phi, z\colon [0,1] \times D^{n-1} \to \Sigma)$,
+	such that $(\Sigma, M_0, M_1, \phi)$ is a \emph{connected} bordism and $z$ (the ``zipper'') is a framed embedding of the interval such that $z(0) = \phi^{-1}(p_0)$ and $z(1) = \phi^{-1}(p_1)$.
+	
+	A diffeomorphism of zippered bordisms is required to preserve $z$.
+	(Corollary: the endpoints must already agree.)
+\end{definition}
+Intuitively, the boundaries are pointed and there is a framed interval,
+the zipper,
+which runs from one point to the other, through the bordism.
+\begin{definition}
+	The \textbf{zippered connected sum} between two zippered bordisms is the connected sum along the embeddings given by the zippers.
+	By globally choosing an arbitrary point on the boundary of $D^{n-1}$,
+	we should be able to equip the connected sum with a zipper.
+\end{definition}
+
+\begin{definition}
+	The symmetric monoidal category $\operatorname{ZBord}_n$ is defined as:
+	\begin{description}
+		\item[Objects]
+			\emph{Connected, pointed}, oriented, closed manifolds.
+		\item[Morphisms]
+			\emph{Zippered}, oriented bordisms.
+			When composing, note that the boundaries have to agree as pointed manifolds,
+			and therefore the zippers can be composed.
+			The identity is the cylinder.
+		\item[Monoidal structure]
+			On objects, connected sum.
+			The monoidal unit is $S^{n-1}$.
+			On morphisms, zippered connected sum.
+% 			TODO
+			To do: Check associators etc. carefully.
+		\item[Braiding]
+			The braiding is the cylinder with a diffeomorphism $(M_0, p_0) \connsum (M_1, p_1) \cong (M_1, p_1) \connsum (M_0, p_0)$ that leaves the point intact.
+			Sounds symmetric to me.
+	\end{description}
+\end{definition}
+
+\begin{remark}
+	The essential idea is already present in \href{http://mathoverflow.net/questions/179344/what-are-tqfts-that-are-multiplicative-under-connected-sums-do-bordisms-with-co}{http://mathoverflow.net/questions/179344/what-are-tqfts-that-are-multiplicative-under-connected-sums-do-bordisms-with-co}.
+	
+	Also note the early work \href{https://arxiv.org/pdf/q-alg/9603017.pdf}{https://arxiv.org/pdf/q-alg/9603017.pdf} by Thomas Kerler.
+\end{remark}
+
+\section{Connected TQFTs}
+
+\begin{definition}
+	A \textbf{zippered}, or \textbf{connected} TQFT in $n$ dimensions with values in $\mathcal{C}$
+	is a symmetric monoidal functor $\mathcal{Z}\colon \operatorname{ZBord}_n \to \mathcal{C}$.
+\end{definition}
+
+Let's try and find a presentation for some low dimensions.
+
+\subsection{Dimension 1}
+
+$\operatorname{ZBord}_1$ has only one object,
+the point.
+It is the monoidal unit,
+so it won't generate any new objects.
+It's also trivially pointed.
+
+The only endomorphism is its identity,
+which is trivially zippered.
+Remember that manifolds with more than one component are not allowed.
+
+So $\operatorname{ZBord}_1$ is the trivial symmetric monoidal category.
+
+Its representations are very sparse.
+Indeed, to a given symmetric monoidal category,
+there is exactly one functor.
+
+Dimension 1 is all about the point,
+and it's quite pointless.
+Compare it to TQFTs, where we already have dualisability in that dimension.
+
+\subsection{Dimension 2}
+
+There is still only one object, $S^1$.
+It's also the monoidal unit.
+(Remember, no disjoint union.)
+Actually, for every point on $S^1$,
+there is an object, but they're all isomorphic,
+as we'll see shortly.
+
+Now as morphisms, finally something happens.
+An endomorphism of $S^1$ is a surface with 2 holes and an oriented curve (the zipper) from one hole to the other.
+So there are already infinitely many of them!
+There is no information in the zipper, since we can shift both endpoints around arbitrarily.
+So morphisms are classified by their genus.
+
+Note specifically that there is only one zipper on the cylinder:
+All winding numbers are diffeomorphic to the trivial one,
+possibly by a few Dehn twists (which are invisible if we don't extend).
+So all $S^1$s are isomorphic,
+no matter what the point is.
+
+What are the relations from the monoidal structure?
+When we glue two surfaces along their zipper,
+we imagine a thickening around the zipper,
+we paint the right hand boundary of the thickening one of the surfaces in, say, green,
+we cut the thickenings out,
+we glue the surfaces on the boundaries of the thickenings
+and finally we call the green paint the new zipper.
+The number of holes clearly added,
+so morphisms are freely generated by the doubly punctured torus,
+an endomorphism of $S^1$.
+
+\begin{proposition}
+	Zippered 2d TQFTs are classified by an (arbitrary) endomorphism of the monoidal unit of the target category.
+	(And by Eckmann-Hilton, its composite with itself is the same as its product with itself.)
+	Still quite tame.
+	(tame = lame)
+\end{proposition}
+
+\subsection{Dimension 3}
+
+Wowowowoh!
+3-manifolds are serious beasts!
+Don't expect a complete classification just yet!
+
+Objects are pointed surfaces.
+They're classified by their genus,
+and the tensor product adds the number of holes.
+The point doesn't matter up to isomorphism.
+
+Morphisms are connected bordisms.
+If I'm not mistaken,
+you can just fill a surface up and then do surgery on the interior.
+The surgery can be visualised as a Heegard diagram,
+and the zipper is a framed interval in there (probably).
+Now it seems like the choice of zipper can matter when gluing stuff together.
+
+There should be a decent string net TQFT definable on there.
+Good luck classifying these things.
+There are some theorems though that say how 3-manifolds can be decomposed into direct sums.
+Still, lens spaces will account for infinitely many generators.
+
+\section{Why?}
+
+Good question.
+Connected sum is like composition of morphisms, so one shouldn't expect
+
+\subsection{Extended connected TQFTs?}
+
+Already the 3d example was not classifiable.
+Usually, to get better presentations, one resorts to extended TQFTs.
+How to do this here?
+I'd like to know.
+
+% TODO Possibly supplement with a few well-known facts on connected sum & TQFTs (CY, the S^n trick, direct sum decomposition) and put it on Arxiv (as a negative result?)
+
+\end{document}
