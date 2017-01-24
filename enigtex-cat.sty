@@ -1,0 +1,73 @@
+\ProvidesPackage{enigtex-cat}
+
+\RequirePackage{enigtex-macros}
+
+\RequirePackage{tikz}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{math}
+% \usetikzlibrary{knots}
+\newcommand{\twolinesstep}{0.5pt}
+\pgfdeclaredecoration{twolines}{initial}
+{
+	\state{initial}[width=\twolinesstep]
+	{
+		\pgfpathmoveto{\pgfpoint{0pt}{1pt}}
+		\pgfpathlineto{\pgfpoint{\twolinesstep}{1pt}}
+		\pgfpathmoveto{\pgfpoint{0pt}{-1pt}}
+		\pgfpathlineto{\pgfpoint{\twolinesstep}{-1pt}}
+		\pgfpathmoveto{\pgfpoint{0pt}{0pt}}
+	}
+}
+\newcommand{\favouritearrow}{\arrow[favouritearrowstyle]{>}}
+\newcommand{\thickarrow}{\arrow[thickarrowstyle]{>}}
+\tikzmath{
+	\diagramwhitesep = 1.4pt;
+	\diagramthickness = 0.8pt; % = thick
+	\diagramunderwhite = \diagramthickness + 2*\diagramwhitesep;
+	\doubleknotunderwhite = 3*\diagramwhitesep + 2*\diagramthickness;
+	\doubleknotblackthickness = \diagramwhitesep + 2*\diagramthickness;
+}
+\tikzset{
+	none/.style={draw=none,fill=none,text opacity=0},
+	ob/.style={fill,circle,inner sep=1pt},
+	mmor/.style={->,shorten >=1pt,shorten <=1pt},
+	mor/.style={mmor,out=20,in=160},
+	identity/.style={mmor, blue, dotted},
+	dot/.style={circle,fill,inner sep=1pt},
+	diagram/.style={thick,preaction={draw,white,line width=\diagramunderwhite}},
+% 	TODO Make line wider
+% 	diagram/.style={knot=black,thick},
+	favouritearrowstyle/.style={black,thin},
+	thickarrowstyle/.style={black,very thick},
+	directed/.style={decoration={markings, mark=at position #1 with {\favouritearrow}},postaction={decorate}},
+	directed/.default=0.5,
+	opdirected/.style={decoration={markings, mark=at position #1 with {\arrow[favouritearrowstyle]{<}}},postaction={decorate}},
+	opdirected/.default=0.5,
+	directed2/.style={decoration={markings, mark=at position 0.33 with {\favouritearrow}, mark=at position 0.66 with {\favouritearrow}}, postaction={decorate}},
+	doubleknot/.style={preaction={draw,white,line width=\doubleknotunderwhite},line width=\doubleknotblackthickness,postaction={draw,white,line width=\diagramwhitesep}},
+	doubleknotdirected/.style={preaction={draw,white,line width=\doubleknotunderwhite},line width=\doubleknotblackthickness,postaction={draw,white,line width=\diagramwhitesep}},
+	thickdirected/.style={decoration={markings, mark=at position #1 with {\thickarrow}},postaction={decorate}},
+	thickdirected/.default=0.5,
+	thickdirected2/.style={decoration={markings, mark=at position 0.33 with {\thickarrow}, mark=at position 0.66 with {\thickarrow}},postaction={decorate}},
+	morbox/.style={draw,inner sep=1.5pt},
+	markdiagram/.style={opacity=0.15, green, fill=green, fill opacity=0.05}
+}
+\newcommand{\tikzb}[1]{\tikz[baseline=(B.base)]{#1}}
+\newcommand{\tikzbo}[1]{\tikzb{#1 \node (B) at (0,0) {\phantom{Bla}};}}
+\newcommand{\qdim}[1]{d\!\!\:\left(#1\right)}
+\newcommand{\smallqdim}[1]{d\!\!\:(#1)}
+
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Rep}{Rep}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Inv}{Inv}
+\DeclareMathOperator{\QRes}{QRes}
+\DeclareMathOperator{\Hilb}{Hilb}
+\DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\coev}{coev}
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator{\BiMod}{BiMod}
+% \DeclareMathOperator{\End}{End}
+\newcommand{\op}{{\mathrm{op}}}
+\newcommand{\rev}{\mathrm{rev}}

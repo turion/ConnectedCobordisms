@@ -1,0 +1,59 @@
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{dsfont}
+\RequirePackage{mathtools}
+\RequirePackage{fouridx}
+
+\newcommand{\emathds}[1]{\mathds{#1}}
+% \newcommand{\emathds}[1]{\mathbb{#1}}
+
+\newcommand{\Z}[0]{\emathds{Z}}
+\newcommand{\N}[0]{\emathds{N}}
+\newcommand{\R}[0]{\emathds{R}}
+\newcommand{\Q}[0]{\emathds{Q}}
+\newcommand{\Co}[0]{\emathds{C}}
+\newcommand{\eins}[0]{\emathds{1}}
+
+\newcommand{\La}[0]{\mathcal{L}}
+\newcommand{\Topo}[0]{\mathcal{T}}
+
+\newcommand{\inv}[1]{\frac{1}{#1}}
+\newcommand{\half}[1]{\frac{#1}{2}}
+
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\Hom}{Hom}
+
+\newcommand{\T}[0]{\mathrm{T}}
+\newcommand{\im}[0]{\mathrm{i}}
+\newcommand{\e}[0]{\mathrm{e}}
+\DeclareMathOperator{\diff}{d}
+\DeclareMathOperator{\id}{id}
+\newcommand{\dif}{\,\mathrm{d}}
+% \newcommand{\diff}[0]{\operatorname{d}}
+
+\newcommand{\osubset}[0]{\stackrel{\mathclap{\text{\tiny offen}}}{\subset}}
+\newcommand{\corresponds}[0]{\mathop{\widehat{=}}}
+\newcommand{\connsum}{\mathbin{\#}}
+
+\newcommand{\spaceneutraltab}{\hspace{-2.87pt}&}
+% \newcommand{\spaceneutraltab}{\mathclap{&}}
+\newcommand{\aligndef}{: \spaceneutraltab =}
+
+\newcommand{\ket}[1]{\left| #1 \right>}
+\newcommand{\bra}[1]{\left< #1 \right|}
+\newcommand{\braket}[2]{\left< #1 \vphantom{#2} \right|\left. \vphantom{#1} #2 \right>}
+\newcommand{\braopket}[3]{\left< #1 \vphantom{#2#3} \right| #2 \left| \vphantom{#1#2} #3 \right>}
+\newcommand{\leftdual}[1]{{{\vphantom{#1}}^*#1}}
+\newcommand{\doubleleftdual}[1]{{{\vphantom{#1}}^{**}#1}}
+% \newcommand{\leftdual}[1]{\fourIdx{*}{}{}{}{#1}}
+
+\DeclareMathOperator{\ob}{ob}
+\DeclareMathOperator{\mor}{mor}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Set}{Set}
+\DeclareMathOperator{\Cat}{Cat}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Ker}{Ker}
